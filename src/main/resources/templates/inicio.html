@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,7 +12,7 @@
       <div class="card-text">
         <!--
         <div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
-        <form>
+        <form th:action="@{/iniciovalidacion}" method="post">
           <!-- to error: add class "has-danger" -->
           <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
