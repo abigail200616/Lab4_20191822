@@ -1,11 +1,15 @@
 package com.example.lab4_20191822.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
 public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -17,15 +21,32 @@ public class Reserva {
     @Basic
     @Column(name = "precio_total")
     private int precioTotal;
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
+    public Vuelo getVueloId() {
+        return vueloId;
+    }
+
+    public void setVueloId(Vuelo vueloId) {
+        this.vueloId = vueloId;
+    }
+
     @Basic
     @Column(name = "estado_pago")
     private String estadoPago;
-    @Basic
-    @Column(name = "user_iduser")
-    private int userIduser;
-    @Basic
-    @Column(name = "vuelo_idvuelo")
-    private int vueloIdvuelo;
+    @ManyToOne
+    @JoinColumn(name = "user_iduser")
+    private User userId;
+    @ManyToOne
+    @JoinColumn(name = "vuelo_idvuelo")
+    private Vuelo vueloId;
 
     public int getIdreserva() {
         return idreserva;
@@ -59,32 +80,5 @@ public class Reserva {
         this.estadoPago = estadoPago;
     }
 
-    public int getUserIduser() {
-        return userIduser;
-    }
 
-    public void setUserIduser(int userIduser) {
-        this.userIduser = userIduser;
-    }
-
-    public int getVueloIdvuelo() {
-        return vueloIdvuelo;
-    }
-
-    public void setVueloIdvuelo(int vueloIdvuelo) {
-        this.vueloIdvuelo = vueloIdvuelo;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Reserva reserva = (Reserva) o;
-        return idreserva == reserva.idreserva && precioTotal == reserva.precioTotal && userIduser == reserva.userIduser && vueloIdvuelo == reserva.vueloIdvuelo && Objects.equals(fechaReserva, reserva.fechaReserva) && Objects.equals(estadoPago, reserva.estadoPago);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idreserva, fechaReserva, precioTotal, estadoPago, userIduser, vueloIdvuelo);
-    }
 }

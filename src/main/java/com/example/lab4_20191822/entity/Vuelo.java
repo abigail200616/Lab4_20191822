@@ -1,13 +1,17 @@
 package com.example.lab4_20191822.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "vuelo", schema = "lab4", catalog = "")
-public class VueloEntity {
+public class Vuelo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idvuelo")
@@ -33,12 +37,21 @@ public class VueloEntity {
     @Basic
     @Column(name = "asientos_disponibles")
     private int asientosDisponibles;
+
+    public Aerolinea getAerolineaId() {
+        return aerolineaId;
+    }
+
+    public void setAerolineaId(Aerolinea aerolineaId) {
+        this.aerolineaId = aerolineaId;
+    }
+
     @Basic
     @Column(name = "descripcion")
     private String descripcion;
-    @Basic
-    @Column(name = "aerolinea_idaerolinea")
-    private int aerolineaIdaerolinea;
+    @ManyToOne
+    @JoinColumn(name = "aerolinea_idaerolinea")
+    private Aerolinea aerolineaId;
 
     public int getIdvuelo() {
         return idvuelo;
@@ -112,24 +125,6 @@ public class VueloEntity {
         this.descripcion = descripcion;
     }
 
-    public int getAerolineaIdaerolinea() {
-        return aerolineaIdaerolinea;
-    }
 
-    public void setAerolineaIdaerolinea(int aerolineaIdaerolinea) {
-        this.aerolineaIdaerolinea = aerolineaIdaerolinea;
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        VueloEntity that = (VueloEntity) o;
-        return idvuelo == that.idvuelo && duracion == that.duracion && precio == that.precio && asientosDisponibles == that.asientosDisponibles && aerolineaIdaerolinea == that.aerolineaIdaerolinea && Objects.equals(origen, that.origen) && Objects.equals(destino, that.destino) && Objects.equals(fechaSalida, that.fechaSalida) && Objects.equals(fechaLlegada, that.fechaLlegada) && Objects.equals(descripcion, that.descripcion);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idvuelo, origen, destino, fechaSalida, fechaLlegada, duracion, precio, asientosDisponibles, descripcion, aerolineaIdaerolinea);
-    }
 }

@@ -1,10 +1,14 @@
 package com.example.lab4_20191822.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
 public class Aerolinea {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
