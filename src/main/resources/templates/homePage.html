@@ -61,47 +61,54 @@
         <div class="col-2"></div>
     </div>
 
-
-
     <div class="card text-center mt-2 border-white">
         <div class="card-body">
             <div class="row">
                 <div class="col-2"></div>
-                <div class="col-8"><img class="img-fluid" th:src="@{'/tokio.png'}" alt=""></div>
+                <div class="col-8"><img class="img-fluid" th:src="@{'/tokio.jpeg'}" alt=""></div>
                 <div class="col-2"></div>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-sm-6 mb-3 mb-sm-0" th:each="vuelo, info : ${vueloList}" >
+        <div class="col-sm-6 mb-3 mb-sm-0" th:each="vuelo, info : ${vueloList}">
 
             <div class="card text-center border-white">
                 <div class="card-body">
-                    <h5 class="card-title mt-3" th:value="${vuelo.origen}" + th:value="${vuelo.destino}">Lima - Bogota <span class="text-danger" th:value="${vuelo.precio}"><b>($120.00)</b></span></h5>
-                    <p class="text-success" th:value="${vuelo.aerolineaId.nombre}"><b>Star Peru - 2I</b> </p>
-                    <p th:value="${vuelo.descripcion}">Definitivamente el turismo en Bogotá en más que Monserrate y la Candelaria, hay muchas excursiones por
+                    <h5 class="card-title mt-3" th:text="|${vuelo.origen} - ${vuelo.destino}|">Lima - Bogota</h5>
+                    <h5><span class="text-danger" th:text="|($${vuelo.precio}.00)|"><b>($120.00)</b></span></h5>
+                    <h5 class="text-success" th:text="|${vuelo.aerolineaId.nombre} - ${vuelo.aerolineaId.codigo}|"> <b> Star Peru - 2I</b> </h5>
+                    <p th:text="${vuelo.descripcion}">Definitivamente el turismo en Bogotá en más que Monserrate y la Candelaria, hay muchas excursiones por
                         senderos
                         mágicos que puedes realizar. Estas actividades también se conocen como: senderismo, excursionismo,
                         caminata, montañismo,
                         hiking o trekking.</p>
-                    <button class="btn btn-success btn-lg btn-block" th:value="${vuelo.idvuelo}">Comprar</button>
+                    <button class="btn btn-success btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#modal">Comprar</button>
+                    <!-- th:href="@{'/vuelo/comprar' + '?id=' + ${vuelo.idvuelo}}" -->
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6 mb-3 mb-sm-0">
-            <div class="cardtext-center border-white">
-                <div class="card-body">
-                    <h5 class="card-title mt-3">Lima - Bogota <span class="text-danger"><b>($120.00)</b></span></h5>
-                    <p class="text-success"><b>Star Peru - 2I</b> </p>
-                    <p>Definitivamente el turismo en Bogotá en más que Monserrate y la Candelaria, hay muchas excursiones por
-                        senderos
-                        mágicos que puedes realizar. Estas actividades también se conocen como: senderismo, excursionismo,
-                        caminata, montañismo,
-                        hiking o trekking.</p>
-                    <button class="btn btn-success btn-lg btn-block">Comprar</button>
+        <!-- Modal Comprar -->
+        <div class="modal fade" id="modal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Felicidades</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-success mx-auto">
+                        Se realizo con exito su reserva
+                    </div>
+                    <div class="modal-footer">
+                        <form method="post" th:action="@{'/vuelo/comprar'}" class="col-4">
+                            <input th:value="${vuelo.idvuelo}" name="vueloId" type="hidden" />
+                            <input th:value="${userid}" name="userId" type="hidden" />
+                            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Entiendo</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+        </div><!-- End Modal-->
         </div>
     </div>
 

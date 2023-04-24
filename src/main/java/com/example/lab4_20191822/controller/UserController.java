@@ -7,13 +7,15 @@ import com.example.lab4_20191822.repository.VueloRepository;
 import org.springframework.jdbc.support.CustomSQLErrorCodesTranslation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
+@RequestMapping("inicio")
 public class UserController {
 
      VueloRepository vueloRepository;
@@ -25,22 +27,22 @@ public class UserController {
         this.usuarioRepository = usuarioRepository;
     }
 
-
-    @GetMapping(value = "/inicio")
-    public String index(){
+    @GetMapping("/login")
+    public String inicio(){
         return "/inicio";
     }
 
-    @GetMapping(value = "/iniciovalidacion")
-    public String Validacion(Model model, @RequestParam(name= "correo") String email, @RequestParam(name ="contrasena") String password){
+    @PostMapping(value = "/validacion")
+    public String validacion(Model model,
+                             @RequestParam(name= "correo") String email,
+                             @RequestParam(name ="contrasena") String password){
 
-        User u = usuarioRepository.findByEmailAndPassword(email, password);
-        if(u.getEmail().equals(email) && u.getPassword().equals(password)){
-            return "/homePage";
+        Optional <User> optUser = Optional.ofNullable(usuarioRepository.findByEmailAndPassword(email, password));
+        if(optUser.isPresent()){
+            User user = optUser.get();
+            return "redirect:/vuelo/info/" + user.getIduser();
         }
-        model.addAttribute("usuario", u);
-
-        return "/inicio";
+        return "redirect:/inicio/login";
     }
 
 }
